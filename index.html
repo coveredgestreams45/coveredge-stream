@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CoverEdge • FOX Live</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- HLS.js -->
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<style>
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.box {
+  background: #111;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 0 25px rgba(0,255,204,0.2);
+}
+
+h1 {
+  color: #00ffcc;
+  margin-top: 0;
+}
+
+p {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+video {
+  width: 100%;
+  margin-top: 12px;
+  border-radius: 10px;
+  background: #000;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.join {
+  background: #00ffcc;
+  color: #000;
+  font-weight: bold;
+}
+
+.joined {
+  background: #1f2937;
+  color: #fff;
+}
+
+.status {
+  margin-top: 10px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h1>CoverEdge Live</h1>
+  <p>Subscribe to CoverEdge for live match clips & rare clips</p>
+
+  <button class="btn join" onclick="joinNow()">Join Now</button>
+  <button class="btn joined" onclick="playStream()">Already Joined</button>
+
+  <video id="video" controls playsinline></video>
+  <div class="status" id="status">Click “Already Joined” to start stream</div>
+</div>
+
+<script>
+const STREAM_URL = "https://cricloungelive.short.gy/ashes25/fox.m3u8";
+const TG_URL = "https://t.me/CoverEdge45";
+const video = document.getElementById("video");
+const statusText = document.getElementById("status");
+
+function joinNow() {
+  window.open(TG_URL, "_blank");
+  playStream();
+}
+
+function playStream() {
+  statusText.innerText = "Loading FOX Live Stream…";
+
+  if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    // Safari / iOS
+    video.src = STREAM_URL;
+    video.play();
+    statusText.innerText = "Live stream playing";
+  } else if (Hls.isSupported()) {
+    const hls = new Hls({
+      maxBufferLength: 30,
+      enableWorker: true
+    });
+    hls.loadSource(STREAM_URL);
+    hls.attachMedia(video);
+
+    hls.on(Hls.Events.MANIFEST_PARSED, function () {
+      video.play();
+      statusText.innerText = "Live stream playing";
+    });
+
+    hls.on(Hls.Events.ERROR, function (event, data) {
+      statusText.innerText = "Stream error or blocked";
+      console.error(data);
+    });
+  } else {
+    statusText.innerText = "Your browser does not support live playback";
+  }
+}
+</script>
+
+</body>
+</html>
