@@ -2,148 +2,190 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>CoverEdge • Live Hub</title>
+<title>CoverEdge45 – Live Cricket</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-  margin: 0;
-  background: #000;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  text-align: center;
-}
-
-header {
-  padding: 16px;
-  font-size: 24px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-
-.buttons {
-  margin: 20px;
-}
-
-button {
-  width: 90%;
-  max-width: 320px;
-  padding: 14px;
-  margin: 10px auto;
-  display: block;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.fox { background:#00ffcc; color:#000; }
-.tnt { background:#ff4444; color:#fff; }
-.willow { background:#5cff5c; color:#000; }
-.channel { background:#f11; color:#000; }
-
-.footer {
-  margin: 20px;
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-.footer a {
-  color: #00ffcc;
-  text-decoration: none;
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#06162e;
+  color:#fff;
+  -webkit-user-select:none;
+  user-select:none;
 }
 
 /* POPUP */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+.popup-box{
+  background:linear-gradient(180deg,#0b3c8a,#06162e);
+  padding:22px;
+  border-radius:14px;
+  text-align:center;
+  max-width:320px;
+}
+.popup-box a,
+.popup-box button{
+  display:block;
+  width:100%;
+  margin-top:12px;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+  text-decoration:none;
+}
+.popup-join{background:#1ea7ff;color:#fff;}
+.popup-done{background:#133d78;color:#fff;}
+
+/* TOP BAR */
+.top-bar{
+  max-width:950px;
+  margin:15px auto;
+  background:linear-gradient(90deg,#0b3c8a,#1158c7);
+  padding:14px;
+  text-align:center;
+  font-weight:bold;
+  border-radius:12px;
 }
 
-.modal-box {
-  background: #111;
-  padding: 24px;
-  border-radius: 14px;
-  width: 90%;
-  max-width: 340px;
-  box-shadow: 0 0 20px rgba(0,255,204,0.4);
+/* PLAYER */
+.player-wrap{
+  max-width:950px;
+  margin:0 auto;
+  background:#000;
+  border-radius:14px;
+  overflow:hidden;
+}
+.player-wrap iframe{
+  width:100%;
+  height:55vh;
+  border:none;
 }
 
-.modal-box h3 {
-  margin-top: 0;
-  color: #00ffcc;
+/* SECTIONS */
+.section{
+  max-width:950px;
+  margin:15px auto;
+  background:linear-gradient(180deg,#0b2f63,#0a2450);
+  padding:16px;
+  border-radius:14px;
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.section h3{
+  width:100%;
+  text-align:center;
+  margin:0 0 8px;
 }
 
-.modal-box p {
-  font-size: 14px;
-  opacity: 0.85;
+/* BUTTONS */
+.btn{
+  background:#1ea7ff;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:bold;
+  border:none;
+  cursor:pointer;
 }
+.btn.secondary{background:#133d78;}
 
-.modal-box button {
-  width: 100%;
-  margin-top: 12px;
+/* BOTTOM */
+.banner{
+  max-width:950px;
+  margin:20px auto;
+  background:#000;
+  border-radius:14px;
+  padding:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  font-size:24px;
+  font-weight:bold;
 }
+.banner img{width:40px;}
 </style>
 </head>
 
-<body>
-
-<header>CoverEdge Live</header>
-
-<div class="buttons">
-  <button class="fox" onclick="openLink(FOX)">FOX Sports</button>
-  <button class="tnt" onclick="openLink(TNT)">TNT Sports</button>
-  <button class="willow" onclick="openLink(WILLOW)">Willow Sports</button>
-  <button class="channel" onclick="openLink(STAR)">Star Sports</button>
-</div>
-
-<div class="footer">
-  Subscribe for live match clips & rare content<br>
-  <a href="https://t.me/CoverEdge45" target="_blank">Join CoverEdge Telegram</a>
-</div>
-
 <!-- POPUP -->
-<div class="modal" id="popup">
-  <div class="modal-box">
-    <h3>Join CoverEdge</h3>
-    <p>Get live match links & rare clips on Telegram</p>
-    <button class="fox" onclick="joinNow()">Join Now</button>
-    <button class="tnt" onclick="alreadyJoined()">Already Joined</button>
+<div class="popup" id="popup">
+  <div class="popup-box">
+    <h2>Welcome 👋</h2>
+    <p>Join our Telegram channel for live updates</p>
+    <a class="popup-join" href="https://t.me/CoverEdge45" target="_blank">
+      Join @CoverEdge45
+    </a>
+    <button class="popup-done" onclick="closePopup()">Already Joined</button>
   </div>
 </div>
 
+<body oncontextmenu="return false">
+
+<!-- TOP -->
+<div class="top-bar">CoverEdge45 • Willow Sports</div>
+
+<!-- PLAYER -->
+<div class="player-wrap">
+  <iframe 
+    src="https://cricketstan.github.io/Willow-Sports/" 
+    allowfullscreen
+    allow="autoplay; encrypted-media">
+  </iframe>
+</div>
+
+<!-- JOIN -->
+<div class="section">
+  <h3>⚡ Join Telegram For Live Updates</h3>
+  <a class="btn" href="https://t.me/CoverEdge45" target="_blank">Join Telegram</a>
+  <a class="btn secondary" href="https://t.me/CoverEdgelinks" target="_blank">View All Channels</a>
+</div>
+
+<!-- SHARE -->
+<div class="section">
+  <h3>❤️ Share & Support</h3>
+  <button class="btn" onclick="sharePage()">Share Page</button>
+  <button class="btn secondary" onclick="copyLink()">Copy Link</button>
+</div>
+
+<!-- BOTTOM -->
+<a href="https://t.me/CoverEdge45" target="_blank" style="text-decoration:none;color:inherit">
+  <div class="banner">
+    <img src="https://telegram.org/img/t_logo.png">
+    Join @CoverEdge45
+  </div>
+</a>
+
 <script>
-// STREAM LINKS (OPEN IN NEW TAB)
-const FOX = "https://allrounderlive.pages.dev/player?url=" +
-            encodeURIComponent("https://dillzy.cricketstream745.workers.dev/live.m3u8");
-
-const TNT = "https://cricketstan.github.io/TNT-1/";
-const WILLOW = "https://cricketstan.github.io/Willow-Sports/";
-const STAR = "https://cricketstan.github.io/Channel-13";
-
-const popup = document.getElementById("popup");
-
-function openLink(url) {
-  window.open(url, "_blank");
+function copyLink(){
+  navigator.clipboard.writeText(location.href);
+  alert("Link copied!");
 }
-
-function joinNow() {
-  window.open("https://t.me/CoverEdge45", "_blank");
-  popup.style.display = "none";
+function sharePage(){
+  if(navigator.share){
+    navigator.share({title:"Live Cricket – CoverEdge45",url:location.href});
+  }
 }
-
-function alreadyJoined() {
-  popup.style.display = "none";
+function closePopup(){
+  document.getElementById("popup").style.display="none";
+  sessionStorage.setItem("joined","yes");
 }
-
-window.onload = () => {
-  popup.style.display = "flex";
-};
+if(sessionStorage.getItem("joined")==="yes"){
+  document.getElementById("popup").style.display="none";
+}
 </script>
 
 </body>
