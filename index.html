@@ -2,11 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>CoverEdge • FOX Live</title>
+<title>CoverEdge • Live Hub</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- HLS.js -->
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 <style>
 body {
@@ -14,121 +11,139 @@ body {
   background: #000;
   color: #fff;
   font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+header {
+  padding: 16px;
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.buttons {
+  margin: 20px;
+}
+
+button {
+  width: 90%;
+  max-width: 320px;
+  padding: 14px;
+  margin: 10px auto;
+  display: block;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.fox { background:#00ffcc; color:#000; }
+.tnt { background:#ff4444; color:#fff; }
+.willow { background:#5cff5c; color:#000; }
+.channel { background:#f11; color:#000; }
+
+.footer {
+  margin: 20px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.footer a {
+  color: #00ffcc;
+  text-decoration: none;
+}
+
+/* POPUP */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  z-index: 999;
 }
 
-.box {
+.modal-box {
   background: #111;
-  padding: 20px;
-  border-radius: 12px;
+  padding: 24px;
+  border-radius: 14px;
   width: 90%;
-  max-width: 360px;
-  text-align: center;
-  box-shadow: 0 0 25px rgba(0,255,204,0.2);
+  max-width: 340px;
+  box-shadow: 0 0 20px rgba(0,255,204,0.4);
 }
 
-h1 {
-  color: #00ffcc;
+.modal-box h3 {
   margin-top: 0;
+  color: #00ffcc;
 }
 
-p {
+.modal-box p {
   font-size: 14px;
   opacity: 0.85;
 }
 
-video {
+.modal-box button {
   width: 100%;
   margin-top: 12px;
-  border-radius: 10px;
-  background: #000;
-}
-
-.btn {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.join {
-  background: #00ffcc;
-  color: #000;
-  font-weight: bold;
-}
-
-.joined {
-  background: #1f2937;
-  color: #fff;
-}
-
-.status {
-  margin-top: 10px;
-  font-size: 12px;
-  opacity: 0.7;
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
-  <h1>CoverEdge Live</h1>
-  <p>Subscribe to CoverEdge for live match clips & rare clips</p>
+<header>CoverEdge Live</header>
 
-  <button class="btn join" onclick="joinNow()">Join Now</button>
-  <button class="btn joined" onclick="playStream()">Already Joined</button>
+<div class="buttons">
+  <button class="fox" onclick="openLink(FOX)">FOX Sports</button>
+  <button class="tnt" onclick="openLink(TNT)">TNT Sports</button>
+  <button class="willow" onclick="openLink(WILLOW)">Willow Sports</button>
+  <button class="channel" onclick="openLink(STAR)">Star Sports</button>
+</div>
 
-  <video id="video" controls playsinline></video>
-  <div class="status" id="status">Click “Already Joined” to start stream</div>
+<div class="footer">
+  Subscribe for live match clips & rare content<br>
+  <a href="https://t.me/CoverEdge45" target="_blank">Join CoverEdge Telegram</a>
+</div>
+
+<!-- POPUP -->
+<div class="modal" id="popup">
+  <div class="modal-box">
+    <h3>Join CoverEdge</h3>
+    <p>Get live match links & rare clips on Telegram</p>
+    <button class="fox" onclick="joinNow()">Join Now</button>
+    <button class="tnt" onclick="alreadyJoined()">Already Joined</button>
+  </div>
 </div>
 
 <script>
-const STREAM_URL = "https://cricloungelive.short.gy/ashes25/fox.m3u8";
-const TG_URL = "https://t.me/CoverEdge45";
-const video = document.getElementById("video");
-const statusText = document.getElementById("status");
+// STREAM LINKS (OPEN IN NEW TAB)
+const FOX = "https://allrounderlive.pages.dev/player?url=" +
+            encodeURIComponent("https://dillzy.cricketstream745.workers.dev/live.m3u8");
+
+const TNT = "https://cricketstan.github.io/TNT-1/";
+const WILLOW = "https://cricketstan.github.io/Willow-Sports/";
+const STAR = "https://cricketstan.github.io/Channel-13";
+
+const popup = document.getElementById("popup");
+
+function openLink(url) {
+  window.open(url, "_blank");
+}
 
 function joinNow() {
-  window.open(TG_URL, "_blank");
-  playStream();
+  window.open("https://t.me/CoverEdge45", "_blank");
+  popup.style.display = "none";
 }
 
-function playStream() {
-  statusText.innerText = "Loading FOX Live Stream…";
-
-  if (video.canPlayType("application/vnd.apple.mpegurl")) {
-    // Safari / iOS
-    video.src = STREAM_URL;
-    video.play();
-    statusText.innerText = "Live stream playing";
-  } else if (Hls.isSupported()) {
-    const hls = new Hls({
-      maxBufferLength: 30,
-      enableWorker: true
-    });
-    hls.loadSource(STREAM_URL);
-    hls.attachMedia(video);
-
-    hls.on(Hls.Events.MANIFEST_PARSED, function () {
-      video.play();
-      statusText.innerText = "Live stream playing";
-    });
-
-    hls.on(Hls.Events.ERROR, function (event, data) {
-      statusText.innerText = "Stream error or blocked";
-      console.error(data);
-    });
-  } else {
-    statusText.innerText = "Your browser does not support live playback";
-  }
+function alreadyJoined() {
+  popup.style.display = "none";
 }
+
+window.onload = () => {
+  popup.style.display = "flex";
+};
 </script>
 
 </body>
